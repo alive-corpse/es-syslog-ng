@@ -10,16 +10,16 @@ echo '@version: '"$version"'
 @include "/configs/options.conf"
 
 # Sources
-#@include "/configs/sources.conf"
+@include "/configs/sources.conf"
 
 # Level Filters
-#@include "/configs/level-filters.conf"
+@include "/configs/level-filters.conf"
 
 # Facility Filters
-#@include "/configs/facility-filters.conf"
+@include "/configs/facility-filters.conf"
 
 # Custom configs
-#@include "/configs/conf.d/*.conf"
+@include "/configs/conf.d/*.conf"
 ' > "$MAINCONF"
 
 CONF='/configs/options.conf'
