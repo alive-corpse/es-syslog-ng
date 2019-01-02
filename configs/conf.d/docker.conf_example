@@ -7,7 +7,7 @@ filter f_docker {
 destination dst_docker { 
     file(
         "/logs/docker/$(substr ${PROGRAM} 7)/$YEAR-$MONTH-$DAY.log"
-        template("$ISODATE --- $LEVEL --- $MSG\n") 
+        template("$ISODATE $LEVEL $MSG\n") 
     ); 
 };
 
