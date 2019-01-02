@@ -1,0 +1,18 @@
+# Logs from docker containers. Please, append tag with prefix "docker-"
+
+filter f_docker {
+    match("docker-" value ("PROGRAM")); 
+};
+
+destination dst_docker { 
+    file(
+        "/logs/docker/$(substr ${PROGRAM} 7)/$YEAR-$MONTH-$DAY.log"
+        template("$ISODATE --- $LEVEL --- $MSG\n") 
+    ); 
+};
+
+log {
+    source(src_net);
+    filter(f_docker);
+    destination(dst_docker);
+};

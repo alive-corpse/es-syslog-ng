@@ -1,0 +1,18 @@
+# Logs from ESPEasy devices
+
+filter f_espeasy { 
+    match("EspEasy" value ("MESSAGE")); 
+};
+
+destination dst_espeasy { 
+    file(
+        "/logs/esp/$YEAR-$MONTH-$DAY-$PROGRAM-$HOST.log"
+        template("$ISODATE $LEVEL $MSG\n") 
+    ); 
+};
+
+log {
+    source(src_net);
+    filter(f_espeasy);
+    destination(dst_espeasy);
+};

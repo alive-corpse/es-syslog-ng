@@ -1,0 +1,22 @@
+# Фильтр по интересующему нас устройству
+filter f_dlink {
+    host("Dlink-Router.Dlink");
+};
+
+# Указываем путь сохранения в отдельную директорию, лог за каждый день - в отдельный файл, плюс добавляем дату и время в нужном нам формате к каждой строке лога с помощью шаблона
+destination dst_dlink {
+    file(
+        "/logs/network/d-link-router/$YEAR-$MONTH-$DAY.log"
+        template("$ISODATE $LEVEL $MSG\n")
+    );
+};
+
+# Объединяем всё это
+log {
+    # Всё, что пришло по сети
+    source(src_net);
+    # Используем наш фильтр
+    filter(f_dlink);
+    # И назначение
+    destination(dst_dlink);
+};

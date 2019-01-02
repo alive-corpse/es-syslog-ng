@@ -1,0 +1,18 @@
+version: "2"
+
+services:
+    es-syslog-ng:
+        build: .
+        #network_mode: "host"
+        volumes:
+            - ./configs:/configs
+            - ./scripts:/scripts
+            - ./logs:/logs
+        ports:
+            - "0.0.0.0:514:514/udp"
+            - "0.0.0.0:601:601"
+        restart: always
+        environment:
+            - HOSTUID
+            - HOSTGID
+

@@ -1,0 +1,11 @@
+#!/bin/sh
+# Entring to shell
+
+cd `dirname "$0"`
+
+if [ "$(pwd)" = "/scripts" ]; then
+    echo "It seems you are already inside container"
+else
+    docker-compose exec es-syslog-ng sh
+fi
+

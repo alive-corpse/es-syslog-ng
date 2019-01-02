@@ -1,0 +1,6 @@
+logs
+*.swp
+*.swo
+backup
+backups
+configs/conf.d/*.conf

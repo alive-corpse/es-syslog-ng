@@ -1,0 +1,11 @@
+#!/bin/sh
+# Reloading syslog-ng configuration
+
+cd `dirname "$0"`
+
+if [ "$(pwd)" = "/scripts" ]; then
+    syslog-ng-ctl reload
+else
+    docker-compose exec es-syslog-ng syslog-ng-ctl reload
+fi
+
