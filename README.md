@@ -14,7 +14,7 @@ git clone https://github.com/alive-corpse/es-syslog-ng.git
 cd es-syslog-ng
 echo "HOSTUID=$(id -u)" > .env
 echo "HOSTGID=$(id -g)" >> .env
-docker-compose up
+docker-compose up -d
 ```
 
 ### How to setup
