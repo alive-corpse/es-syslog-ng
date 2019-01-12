@@ -3,6 +3,8 @@ set -e
 
 MAINCONF='/etc/syslog-ng/syslog-ng.conf'
 
+/scripts/cleaner 7200 &
+
 version=`syslog-ng -V | sed '/Installer-Version/!d;s/^.*: //;s/\.[0-9]*$//'`
 echo '@version: '"$version"'
 

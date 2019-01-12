@@ -1,0 +1,64 @@
+#!/bin/sh
+# Script for acrive and clean old logs
+
+# Just place file with name '.clean' and content
+
+# achive=X
+# clean=Y
+
+# to the some subdirectory of logs directory and 
+# all the old files will be cleaned and archived
+# recursively for all directories. All the clean
+# configs will be handled, be carefull with it.
+
+# The first parameter of script is the count of
+# minutes for sleeping between log handling
+# process. Without parameters handling process
+# will be started once.
+
+set -e
+
+IFS='
+'
+
+handling() {
+    echo "$(date "+%F %T") Start log handling process..."
+    for cname in `find /logs -name '.clean' -type f`; do
+        arc=`cat "$cname" | sed '/^archive=/!d;s/^[ \t]*archive[ \t]*=[ \t]*//'`
+        clean=`cat "$cname" | sed '/^clean=/!d;s/^[ \t]*clean[ \t]*=[ \t]*//'`
+        cd `dirname "$cname"`
+        if [ -n "$clean" ]; then
+            cleanlist=`find . -type f ! -name '.clean' -mtime +"$clean"`
+            if [ -n "$cleanlist" ]; then
+                echo "Cleaning old files in $(pwd) directory older than $clean days..."
+                for fn in $cleanlist; do
+                    echo "Removing $fn"
+                    rm -f "$fn"
+                done
+            fi
+        fi    
+        if [ -n "$arc" ]; then
+            arclist=`find . -type f ! -name '.clean' ! -name '*.bz2' -mtime +"$arc"`
+            if [ -n "$arclist" ]; then
+                echo "Compressing old files in $(pwd) directory older than $arc days..."
+                for fn in $arclist; do
+                    echo "Compressing $fn"
+                    bzip2 "$fn"
+                done
+            fi
+        fi
+    done
+}
+
+
+if [ -n "$1" ]; then
+    echo "Start infinity cycle..."
+    while true; do
+        handling
+        echo "Sleeping for $1 minutes..."
+        sleep $1
+    done
+else
+    handling
+fi
+
