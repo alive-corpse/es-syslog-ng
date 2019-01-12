@@ -27,7 +27,7 @@ handling() {
         arc=`cat "$cname" | sed '/^archive=/!d;s/^[ \t]*archive[ \t]*=[ \t]*//'`
         clean=`cat "$cname" | sed '/^clean=/!d;s/^[ \t]*clean[ \t]*=[ \t]*//'`
         cd `dirname "$cname"`
-        if [ -n "$clean" ]; then
+        if [[ -n "$clean" ]] && [[ "$clear" -gt 0 ]]; then
             cleanlist=`find . -type f ! -name '.clean' -mtime +"$clean"`
             if [ -n "$cleanlist" ]; then
                 echo "Cleaning old files in $(pwd) directory older than $clean days..."
@@ -39,7 +39,7 @@ handling() {
         fi    
         if [ -n "$arc" ]; then
             arclist=`find . -type f ! -name '.clean' ! -name '*.bz2' -mtime +"$arc"`
-            if [ -n "$arclist" ]; then
+            if [[ -n "$arclist" ]] && [[ $arc -gt 0 ]]; then
                 echo "Compressing old files in $(pwd) directory older than $arc days..."
                 for fn in $arclist; do
                     echo "Compressing $fn"
