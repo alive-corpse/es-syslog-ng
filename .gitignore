@@ -5,3 +5,4 @@ logs
 backup
 backups
 configs/conf.d/*.conf
+scripts/testscript
