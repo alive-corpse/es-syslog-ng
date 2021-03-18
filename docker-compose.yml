@@ -1,10 +1,10 @@
-version: "2"
+version: "3.5"
 
 services:
     es-syslog-ng:
         build: .
-		hostname: syslog
-		container_name: syslog
+        hostname: syslogng
+        container_name: syslogng
         volumes:
             - ./configs:/configs
             - ./scripts:/scripts
@@ -16,8 +16,8 @@ services:
         environment:
             - HOSTUID
             - HOSTGID
-		logging:
-			driver: "json-file"
-			options:
-				max-file: 5
-				max-size: 10m
+        logging:
+            driver: "json-file"
+            options:
+                max-file: "5"
+                max-size: 10m
